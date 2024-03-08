@@ -1,0 +1,63 @@
+from operator import truediv
+import random
+from tkinter.messagebox import YES
+from turtle import back
+print("Hello World")
+names = []
+ages = []
+tickets_sold = 0
+name = 'blank'
+see_instructions = 'blank'
+name = 'blank'
+
+
+def raffle_winner():
+    upper_limit = len(names) - 1
+    print(upper_limit)
+    raffle_winner = random.randint(0,upper_limit)
+    print(names[raffle_winner])
+
+# is_one_of_two compares the user's input to two target responses. 
+# The matched response will return its number. This can also be used on the kill codes.
+def is_one_of_two(user_input,option1,option2):
+    if user_input.lower() == option1:
+        return 1
+    elif user_input.lower() == option2:
+        return 2
+    else:
+        return 0
+
+while tickets_sold < 10:
+    while True: 
+        see_instructions = str(input('Do you wish to see the instructions? '))
+        if is_one_of_two(see_instructions,'yes','no') == 1:
+            print('Instructions go here')
+            break
+        elif is_one_of_two(see_instructions,'yes','no') == 2:
+            break
+        elif is_one_of_two(see_instructions,'yes','no') == 0:
+            if is_one_of_two(see_instructions,'xxx','back') == 1: 
+                break
+            elif is_one_of_two(see_instructions,'xxx','back') == 2:
+                break
+            elif is_one_of_two(see_instructions,'xxx','back') == 0:
+                print("Enter yes or no.")
+                continue
+
+    if is_one_of_two(see_instructions,'xxx','back') == 1: 
+        break
+    elif is_one_of_two(see_instructions,'xxx','back') == 2:
+        continue
+    
+    name = str(input('What is your name? '))
+    if is_one_of_two(name,'xxx','back') == 1: 
+        break
+    elif is_one_of_two(name,'xxx','back') == 2:
+        continue
+    else:
+        names.append(name)
+    tickets_sold += 1
+
+print(names[0:tickets_sold])
+
+print("main loop broken. component 6 will go here.")
