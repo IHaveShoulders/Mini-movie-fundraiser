@@ -1,0 +1,163 @@
+from operator import truediv
+import random
+import time
+from tkinter import N
+from tkinter.messagebox import YES
+from turtle import back
+print("                               (       )    )  (     ")
+print("  *   )          )         )   )\ ) ( /( ( /(  )\ )  ")
+print("` )  /((      ( /(   (  ( /(  (()/( )\()))\())(()/(  ")
+print(" ( )(_))\  (  )\()) ))\ )\())  /(_)|(_)\((_)\  /(_)) ")
+print("(_(_()|(_) )\((_)\ /((_|_))/  (_))  _((_) ((_)(_))   ")
+print("|_   _|(_)((_) |(_|_)) | |_   / __|| || |/ _ \| _ \  ")
+print("  | |  | / _|| / // -_)|  _|  \__ \| __ | (_) |  _/  ")
+print("  |_|  |_\__||_\_|\___| \__|  |___/|_||_|\___/|_|    ")
+print("")
+
+# Lists to refer back to at the end of the program
+names = []
+ages = []
+payment_methods = []
+costs = []
+profits = []
+
+#Miscellaneous variables
+tickets_sold = 0
+name = 'blank'
+see_instructions = 'blank'
+name = 'blank'
+age_string = 'blank' #Age_string is used to keep the rogram from crashing if a non-integer is put in.
+age = 0 #age will be set to age_string if age_string.isdecimal() returns True
+payment_method = 'blank'
+ticket_cost = float(0.0)
+profit = float(0.0) #ticket_cost and profit are calculated, then their values are added to lists once payment is confirmed.
+winner = 0
+amt_won = float(0.0)
+
+def raffle_winner():
+    upper_limit = len(names) - 1
+    print(upper_limit)
+    raffle_winner = random.randint(0,upper_limit)
+    print(names[raffle_winner])
+
+# is_one_of_two compares the user's input to two target responses. 
+# The matched response will return its number. This can also be used on the kill codes.
+def is_one_of_two(user_input,option1,option2):
+    if user_input == option1:
+        return 1
+    elif user_input == option2:
+        return 2
+    else:
+        return 0
+
+while True:
+    while True: 
+        see_instructions = str(input('Do you wish to see the instructions? '))
+        if is_one_of_two(see_instructions,'yes','no') == 1:
+            print('Answer the provided quesions to purchase your ticket, typing "back" at any time will cancel your purchace.')
+            break
+        elif is_one_of_two(see_instructions,'yes','no') == 2:
+            break
+        elif is_one_of_two(see_instructions,'yes','no') == 0:
+            if is_one_of_two(see_instructions,'xxx','back') == 1: 
+                break
+            elif is_one_of_two(see_instructions,'xxx','back') == 2:
+                break
+            elif is_one_of_two(see_instructions,'xxx','back') == 0:
+                print("Enter yes or no.")
+                continue
+
+    if is_one_of_two(see_instructions,'xxx','back') == 1: 
+        break
+    if is_one_of_two(see_instructions,'xxx','back') == 2: 
+        continue
+
+    name = str(input('What is your name? '))
+    if is_one_of_two(name,'xxx','back') == 1: 
+        break
+    elif is_one_of_two(name,'xxx','back') == 2:
+        continue
+
+
+    while True:
+        try:
+            age = int(input("What is your age?: "))
+        except:
+            print("Not an integer. try again.")
+            continue
+        break
+
+    if age <= 12:
+        print("you're too young. declined.")
+        age_string = 'back'
+        continue
+
+    while True:
+        payment_method = str(input("How will you pay? (cash/credit): "))
+        if is_one_of_two(payment_method,'cash','credit') == 1:
+            print("You've chosen cash. no surcharge is applied")
+            if age < 16 and age > 12:
+                ticket_cost = 7.50
+                profit = 2.50
+            elif age >= 65:
+                ticket_cost = 6.50
+                profit = 1.50
+            else:
+                ticket_cost = 10.50
+                profit = 5.50
+            break
+        elif is_one_of_two(payment_method,'cash','credit') == 2:
+            print("You've chosen credit. a 5 percent surcharge is applied to your ticket cost.")
+            if age < 16 and age > 12:
+                ticket_cost = 7.88
+                profit = 2.50
+            elif age >= 65:
+                ticket_cost = 6.83
+                profit = 1.50
+            else:
+                ticket_cost = 11.03
+                profit = 5.50
+            break
+        else:
+            print("please choose cash or credit, in lowercase letters.")
+            continue
+
+    if is_one_of_two(age_string,'xxx','back') == 1: 
+        break
+    elif is_one_of_two(age_string,'xxx','back') == 2: 
+        continue
+
+    print('Ticket cost: $', + ticket_cost)
+    if is_one_of_two(payment_method,'cash','credit') == 2:
+        print("5 percent surcharge applied.") #Rounding fraud????
+
+    see_instructions = str(input("Type anything to confirm transaction. Type 'back' to decline. ")) # see_instructions used again just because I don't need its previous data
+    if is_one_of_two(see_instructions,'xxx','back') == 1: 
+        break
+    if is_one_of_two(see_instructions,'xxx','back') == 2: 
+        continue
+    print("Thank you for your payment.")
+    names.append(name)
+    ages.append(age)
+    payment_methods.append(payment_method)
+    costs.append(ticket_cost)
+    profits.append(profit)
+    tickets_sold += 1
+    print(tickets_sold)
+    if tickets_sold > 2:
+        winner = random.randint(1,tickets_sold) - 1 #all of component 6 is inside the main loop because it just doesn't work outside (explanation will be in documentation.)
+        print(names[winner])
+        print(ages[winner])
+        print(payment_methods[winner])
+        print(costs[winner])
+        amt_won = costs[winner] * 2
+        print("Congratulations, " + names[winner] + ", you won $" + str(amt_won))
+
+        print(names[0:tickets_sold])
+        print(ages[0:tickets_sold])
+        print(payment_methods[0:tickets_sold])
+        print(costs[0:tickets_sold])
+        print(profits[0:tickets_sold])
+
+        see_instructions= input("Press enter to end program.") # This is here to keep the loop from breaking and ending the program.
+        break
