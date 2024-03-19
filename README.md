@@ -1,2 +1,2 @@
 # Mini-movie-fundraiser
-this is where my versions of the program are. copy and paste them into replit or visual studio to run them.
+this is where the program versions go. copy them into notepad and run as a .py file because I find it works more reliably than vscode.
